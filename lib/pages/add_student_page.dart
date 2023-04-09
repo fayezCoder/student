@@ -4,17 +4,17 @@ import 'student.dart';
 class AddStudentPage extends StatefulWidget {
 
   //This is a function for creating a student object
-  final Function(Student) addStudent;
-  const AddStudentPage({Key? key, required this.addStudent}) : super(key: key);
+ final Function(Student) addStudent;
+ const AddStudentPage({Key? key, required this.addStudent}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _AddStudentPageState createState() => _AddStudentPageState();
 }
-
 class _AddStudentPageState extends State<AddStudentPage> {
   final _formKey = GlobalKey<FormState>();
-
   String? _name;
+  String? _gender;
   String? _id;
   String? _nationality;
   String? _school;
@@ -73,6 +73,21 @@ class _AddStudentPageState extends State<AddStudentPage> {
                 },
                 onSaved: (value) {
                   _nationality = value;
+                },
+              ),
+
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: 'gender',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a gender';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  _gender = value;
                 },
               ),
               TextFormField(
@@ -138,6 +153,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
                         name: _name!,
                         id: _id!,
                         nationality: _nationality!,
+                        gender:_gender!,
                         schoolName: _school!,
                         admissionDate: _admissionDate!,
                         exitDate: _exitDate!,

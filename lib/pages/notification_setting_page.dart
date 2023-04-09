@@ -7,6 +7,7 @@ class NotificationSettingsPage extends StatefulWidget {
   const NotificationSettingsPage({Key? key, required this.student}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _NotificationSettingsPageState createState() => _NotificationSettingsPageState();
 }
 
@@ -26,14 +27,14 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Notification Settings'),
+        title: const Text('Notification Settings'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Enable Notification'),
+            const Text('Enable Notification'),
             Switch(
               value: _isNotificationEnabled,
               onChanged: (value) {
@@ -42,8 +43,8 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
                 });
               },
             ),
-            SizedBox(height: 16.0),
-            Text('Days Before Exit'),
+            const SizedBox(height: 16.0),
+            const Text('Days Before Exit'),
             Slider(
               value: _daysBeforeExit.toDouble(),
               min: 1.0,
@@ -56,7 +57,7 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
               },
               label: _daysBeforeExit.toString(),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Center(
               child: ElevatedButton(
                 onPressed: () {
@@ -65,7 +66,7 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
                   widget.student.daysBeforeExit = _daysBeforeExit;
                   Navigator.pop(context);
                 },
-                child: Text('Save Settings'),
+                child: const Text('Save Settings'),
               ),
             ),
           ],
