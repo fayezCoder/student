@@ -10,13 +10,18 @@ class HomePage extends StatefulWidget {
   // ignore: library_private_types_in_public_api
   _HomePageState createState() => _HomePageState();
 }
-
 class _HomePageState extends State<HomePage> {
-  final List<Student> _students = []; // define a list to hold students
+  final List<Student> _students = [];
 
   void addStudent(Student student) {
     setState(() {
-      _students.add(student); // add the new student to the list
+      _students.add(student);
+    });
+  }
+
+  void deleteStudent(Student student) {
+    setState(() {
+      _students.remove(student);
     });
   }
 
@@ -103,6 +108,18 @@ class _HomePageState extends State<HomePage> {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
+                const SizedBox(height: 16.0,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        deleteStudent(student);
+                      },
+                      child: const Text("Delete Student"),
+                    ),
+                  ],
+                ),
               ],
             ),
           );
@@ -114,9 +131,10 @@ class _HomePageState extends State<HomePage> {
             context,
             MaterialPageRoute(
               builder: (context) => AddStudentPage(
-                addStudent: addStudent, // pass the addStudent function
+                addStudent: addStudent,
               ),
             ),
+
           );
         },
         child: const Icon(Icons.add),
