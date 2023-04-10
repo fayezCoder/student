@@ -10,6 +10,7 @@ class HomePage extends StatefulWidget {
   // ignore: library_private_types_in_public_api
   _HomePageState createState() => _HomePageState();
 }
+
 class _HomePageState extends State<HomePage> {
   final List<Student> _students = [];
 
@@ -108,10 +109,19 @@ class _HomePageState extends State<HomePage> {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
-                const SizedBox(height: 16.0,),
+                const SizedBox(
+                  height: 16.0,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    IconButton(
+                      icon: const Icon(Icons.settings),
+                      onPressed: () {
+                        openNotificationSettings(student);
+                      },
+                    ),
+                    const SizedBox(width: 16.0),
                     ElevatedButton(
                       onPressed: () {
                         deleteStudent(student);
@@ -120,6 +130,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
+
               ],
             ),
           );
@@ -134,7 +145,6 @@ class _HomePageState extends State<HomePage> {
                 addStudent: addStudent,
               ),
             ),
-
           );
         },
         child: const Icon(Icons.add),

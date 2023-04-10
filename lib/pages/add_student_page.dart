@@ -106,19 +106,37 @@ class _AddStudentPageState extends State<AddStudentPage> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  final DateTime? picked = await showDatePicker(
+                  final DateTime? pickedDate = await showDatePicker(
                     context: context,
                     initialDate: DateTime.now(),
                     firstDate: DateTime(2015, 8),
                     lastDate: DateTime(2101),
                   );
-                  if (picked != null) {
-                    setState(() {
-                      _admissionDate = picked;
-                    });
+                  if (pickedDate != null) {
+                    // ignore: use_build_context_synchronously
+                    final TimeOfDay? pickedTime = await showTimePicker(
+                      context: context,
+                      initialTime: TimeOfDay.now(),
+                    );
+                    if (pickedTime != null) {
+                      setState(() {
+                        _admissionDate = DateTime(
+                          pickedDate.year,
+                          pickedDate.month,
+                          pickedDate.day,
+                          pickedTime.hour,
+                          pickedTime.minute,
+                        );
+                      });
+                    }
                   }
                 },
-                child: const Text('Admission Date'),
+                child: const Text('Admission Date/Time'),
+              ),
+              if (_admissionDate != null)
+                Text('Admission Date/Time: ${_admissionDate.toString()}'),
+              const SizedBox(
+                height: 10,
               ),
               if (_admissionDate != null)
                 Text('Admission Date: ${_admissionDate!.toIso8601String()}'),
@@ -126,23 +144,36 @@ class _AddStudentPageState extends State<AddStudentPage> {
                 height: 10,
               ),
               ElevatedButton(
-                onPressed: () async {
-                  final DateTime? picked = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(2015, 8),
-                    lastDate: DateTime(2101),
-                  );
-                  if (picked != null) {
-                    setState(() {
-                      _exitDate = picked;
-                    });
-                  }
-                },
-                child: const Text('Exit Date'),
+                  onPressed: () async {
+                    final DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2015, 8),
+                      lastDate: DateTime(2101),
+                    );
+                    if (pickedDate != null) {
+                      // ignore: use_build_context_synchronously
+                      final TimeOfDay? pickedTime = await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.now(),
+                      );
+                      if (pickedTime != null) {
+                        setState(() {
+                          _exitDate = DateTime(
+                            pickedDate.year,
+                            pickedDate.month,
+                            pickedDate.day,
+                            pickedTime.hour,
+                            pickedTime.minute,
+                          );
+                        });
+                      }
+                    }
+                  },
+                  child: const Text('Exit Date/Time'),
               ),
               if (_exitDate != null)
-                Text('Exit Date: ${_exitDate!.toIso8601String()}'),
+                Text('Exit Time: ${_exitDate!.toIso8601String()}'),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: ElevatedButton(
