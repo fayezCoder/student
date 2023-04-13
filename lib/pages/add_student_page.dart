@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/student.dart';
 
-
-
 class AddStudentPage extends StatefulWidget {
  final Function(Student) addStudent;
  const AddStudentPage({Key? key, required this.addStudent}) : super(key: key);
@@ -26,7 +24,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Student'),
+        title: const Text(' أضف سجين'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -36,11 +34,11 @@ class _AddStudentPageState extends State<AddStudentPage> {
             children: [
               TextFormField(
                 decoration: const InputDecoration(
-                  labelText: 'Name',
+                  labelText: 'الإسم',
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a name';
+                    return 'قم بإضافة سجين';
                   }
                   return null;
                 },
@@ -50,11 +48,11 @@ class _AddStudentPageState extends State<AddStudentPage> {
               ),
               TextFormField(
                 decoration: const InputDecoration(
-                  labelText: 'ID No',
+                  labelText: 'رقم السجل المدني/ الإقامة',
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter an ID No';
+                    return 'قم بإضافه السجل المدني أو الإقامة';
                   }
                   return null;
                 },
@@ -64,11 +62,11 @@ class _AddStudentPageState extends State<AddStudentPage> {
               ),
               TextFormField(
                 decoration: const InputDecoration(
-                  labelText: 'Nationality',
+                  labelText: 'الجنسية',
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a nationality';
+                    return 'قم بإضافة الجنسية';
                   }
                   return null;
                 },
@@ -79,11 +77,11 @@ class _AddStudentPageState extends State<AddStudentPage> {
 
               TextFormField(
                 decoration: const InputDecoration(
-                  labelText: 'gender',
+                  labelText: 'الجنس:',
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a gender';
+                    return 'قم بإضافة الجنس ';
                   }
                   return null;
                 },
@@ -93,11 +91,11 @@ class _AddStudentPageState extends State<AddStudentPage> {
               ),
               TextFormField(
                 decoration: const InputDecoration(
-                  labelText: 'School Name',
+                  labelText: 'الجهة',
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a school name';
+                    return 'قم بإضافة الجهة';
                   }
                   return null;
                 },
@@ -132,10 +130,10 @@ class _AddStudentPageState extends State<AddStudentPage> {
                     }
                   }
                 },
-                child: const Text('Admission Date/Time'),
+                child: const Text('التاريخ/ الوقت لدخول السجين'),
               ),
               if (_admissionDate != null)
-                Text('Admission Date/Time: ${_admissionDate.toString()}'),
+                Text(':تاريخ ووقت الدخول ${_admissionDate.toString()}'),
               const SizedBox(
                 height: 10,
               ),
@@ -169,10 +167,10 @@ class _AddStudentPageState extends State<AddStudentPage> {
                       }
                     }
                   },
-                  child: const Text('Exit Date/Time'),
+                  child: const Text('التاريخ/ الوقت لخروج السجين'),
               ),
               if (_exitDate != null)
-                Text('Exit Time: ${_exitDate!.toIso8601String()}'),
+                Text('التاريخ/ الوقت لخروج السجين: ${_exitDate!.toIso8601String()}'),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: ElevatedButton(
@@ -192,7 +190,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
                       Navigator.pop(context); // navigate back to the previous screen
                     }
                   },
-                  child: const Text('Submit'),
+                  child: const Text('حفظ'),
                 ),
 
               ),

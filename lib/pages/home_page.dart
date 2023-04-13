@@ -20,17 +20,27 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-   Future addStudent(student, ) async {
-    final box = Boxes.getTransactions();
-    //this was the problem for 3 days (student)
+  Future<void> addStudent(Student student) async {
+    final box = Hive.box<Student>("transactions");
     box.add(student);
-    }
+  }
+
+
 
 
   void deleteStudent(Student student) {
-
-
+    final box = Hive.box<Student>("transactions");
+    final index = box.values.toList().indexOf(student);
+    if (index != -1) {
+      box.deleteAt(index);
+      setState(() {
+        // Remove the student from any data structures or state variables in your UI.
+      });
+    }
   }
+
+
+
 
   void openNotificationSettings(Student student) {
     Navigator.push(
@@ -44,7 +54,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Student Management System'),
+        title: const Text('نظام إدارة السجناء'),
 
       ),
       body: ValueListenableBuilder<Box<Student>>(
@@ -70,42 +80,42 @@ class _HomePageState extends State<HomePage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
-                        'ID: ${student.id}',
+                        ':السجل المدني/الإقامة ${student.id}',
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
-                        'Nationality: ${student.nationality}',
+                        ':الجنسية ${student.nationality}',
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
-                        'Gender: ${student.gender}',
+                        ':الجنس ${student.gender}',
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
-                        'School: ${student.schoolName}',
+                        'الجهة: ${student.schoolName}',
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
-                        'Admission Date: ${student.admissionDate.toIso8601String()}',
+                        ':تاريخ الدخول ${student.admissionDate.toIso8601String()}',
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
-                        'Exit Date: ${student.exitDate.toIso8601String()}',
+                        ':تاريخ الخروج ${student.exitDate.toIso8601String()}',
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),
@@ -126,7 +136,7 @@ class _HomePageState extends State<HomePage> {
                           onPressed: () {
                             deleteStudent(student);
                           },
-                          child: const Text("Delete Student"),
+                          child: const Text("حذف السجين"),
                         ),
                       ],
                     ),
