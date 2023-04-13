@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'student.dart';
+import '../models/student.dart';
+
+
 
 class AddStudentPage extends StatefulWidget {
-
-  //This is a function for creating a student object
  final Function(Student) addStudent;
  const AddStudentPage({Key? key, required this.addStudent}) : super(key: key);
 
@@ -12,6 +12,7 @@ class AddStudentPage extends StatefulWidget {
   _AddStudentPageState createState() => _AddStudentPageState();
 }
 class _AddStudentPageState extends State<AddStudentPage> {
+
   final _formKey = GlobalKey<FormState>();
   String? _name;
   String? _gender;
@@ -138,8 +139,6 @@ class _AddStudentPageState extends State<AddStudentPage> {
               const SizedBox(
                 height: 10,
               ),
-              if (_admissionDate != null)
-                Text('Admission Date: ${_admissionDate!.toIso8601String()}'),
               const SizedBox(
                 height: 10,
               ),

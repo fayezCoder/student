@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'notification_setting_page.dart';
-import 'student.dart';
+import '../models/student.dart';
 
 class StudentNotificationSettingsPage extends StatefulWidget {
   final List<Student> students;
