@@ -29,14 +29,14 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Notification Settings'),
+        title: const Text('صفحة التنبيهات والإشعارات'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Enable Notification'),
+            const Text('تفعيل التنبيه'),
             Switch(
               value: _isNotificationEnabled,
               onChanged: (value) {
@@ -46,7 +46,7 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
               },
             ),
             const SizedBox(height: 16.0),
-            const Text('Days Before Exit'),
+            const Text('اختر مدة التنبيه للخروج بالايام'),
             Slider(
               value: _daysBeforeExit.toDouble(),
               min: 1.0,
@@ -80,7 +80,7 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
                   // Navigate back to the previous screen
                   Navigator.pop(context);
                 },
-                child: const Text('Save Settings'),
+                child: const Text('حفظ الإعدادات'),
               ),
             ),
           ],

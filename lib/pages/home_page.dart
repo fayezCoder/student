@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:students/pages/boxes.dart';
+import 'package:students/pages/search_student_page.dart';
 import 'add_student_page.dart';
 import 'notification_setting_page.dart';
 import '../models/student.dart';
@@ -14,6 +15,7 @@ class HomePage extends StatefulWidget {
 }
 class _HomePageState extends State<HomePage> {
  // final List<Student> _students = [];
+
   @override
   void dispose(){
     Hive.close();
@@ -47,21 +49,22 @@ class _HomePageState extends State<HomePage> {
   }
 
 
-
-
-
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.yellowAccent,
       appBar: AppBar(
-        title: const Text('نظام إدارة السجناء'),
-
+        title: const Text('نظام إدارة النزلاء - برمجة : فايزالمطيري'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SearchStudentPage()),
+              );
+            },
+          ),
+        ],
       ),
       body: ValueListenableBuilder<Box<Student>>(
         valueListenable: Boxes.getTransactions().listenable(),
@@ -142,7 +145,7 @@ class _HomePageState extends State<HomePage> {
                           onPressed: () {
                             deleteStudent(student);
                           },
-                          child: const Text("حذف السجين"),
+                          child: const Text("حذف النزيل "),
                         ),
                       ],
                     ),
