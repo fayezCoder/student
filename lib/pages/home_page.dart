@@ -25,9 +25,6 @@ class _HomePageState extends State<HomePage> {
     box.add(student);
   }
 
-
-
-
   void deleteStudent(Student student) {
     final box = Hive.box<Student>("transactions");
     final index = box.values.toList().indexOf(student);
@@ -39,20 +36,29 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-
-
-
-  void openNotificationSettings(Student student) {
+  void openNotificationSettings(Student student, Box<Student> box) {
+    Box<Student> box = Hive.box<Student>('transactions');
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => NotificationSettingsPage(student: student),
+        builder: (context) => NotificationSettingsPage(student: student, box: box),
       ),
     );
   }
+
+
+
+
+
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.yellowAccent,
       appBar: AppBar(
         title: const Text('نظام إدارة السجناء'),
 
@@ -80,28 +86,28 @@ class _HomePageState extends State<HomePage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
-                        ':السجل المدني/الإقامة ${student.id}',
+                        'السجل المدني-الإقامة / ${student.id}',
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
-                        ':الجنسية ${student.nationality}',
+                        'الجنسية/ ${student.nationality}',
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
-                        ':الجنس ${student.gender}',
+                        'الجنس/ ${student.gender}',
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
-                        'الجهة: ${student.schoolName}',
+                        ' الجهة/ ${student.schoolName}     ',
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),
@@ -115,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
-                        ':تاريخ الخروج ${student.exitDate.toIso8601String()}',
+                        'تاريخ الخروج ${student.exitDate.toIso8601String()}',
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),
@@ -126,9 +132,9 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.settings),
+                          icon: const Icon(Icons.notification_add_outlined),
                           onPressed: () {
-                            openNotificationSettings(student);
+                            openNotificationSettings(student,box);
                           },
                         ),
                         const SizedBox(width: 16.0),

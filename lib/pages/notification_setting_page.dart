@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import '../models/student.dart';
 
 class NotificationSettingsPage extends StatefulWidget {
   final Student student;
+  final Box<Student> box;
 
-  const NotificationSettingsPage({Key? key, required this.student}) : super(key: key);
+  const NotificationSettingsPage({Key? key, required this.student, required this.box}) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -12,7 +14,7 @@ class NotificationSettingsPage extends StatefulWidget {
 }
 
 class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
-  bool _isNotificationEnabled = false;
+  bool _isNotificationEnabled = true;
   int _daysBeforeExit = 1;
 
   @override
@@ -61,9 +63,21 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  // Update the student's notification settings
-                  widget.student.isNotificationEnabled = _isNotificationEnabled;
-                  widget.student.daysBeforeExit = _daysBeforeExit;
+                  // Save the data to the box
+                  final newStudent = Student(
+                    name: widget.student.name,
+                    id: widget.student.id,
+                    gender: widget.student.gender,
+                    nationality: widget.student.nationality,
+                    schoolName: widget.student.schoolName,
+                    admissionDate: widget.student.admissionDate,
+                    exitDate: widget.student.exitDate,
+                    isNotificationEnabled: _isNotificationEnabled,
+                    daysBeforeExit: _daysBeforeExit,
+                  );
+                  widget.box.put(widget.student.key, newStudent);
+
+                  // Navigate back to the previous screen
                   Navigator.pop(context);
                 },
                 child: const Text('Save Settings'),

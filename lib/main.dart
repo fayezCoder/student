@@ -24,8 +24,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Student ',
-      theme: ThemeData.fallback(),
-      home: const  HomePage(),
+      theme: ThemeData(cardColor: Colors.yellowAccent,
+
+      ),
+      home: const HomePage(),
     );
   }
 }

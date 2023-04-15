@@ -5,6 +5,4 @@ class Boxes {
   static Box<Student> getTransactions() =>
       Hive.box<Student>('transactions');
 
-
-
 }
