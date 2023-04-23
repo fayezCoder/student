@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import '../models/student.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 
 class NotificationSettingsPage extends StatefulWidget {
   final Student student;
@@ -16,10 +18,42 @@ class NotificationSettingsPage extends StatefulWidget {
 class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
   bool _isNotificationEnabled = true;
   int _daysBeforeExit = 1;
+  late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
+
+
+//////////////////////////
+  Future<void> _initializeFlutterLocalNotificationsPlugin() async {
+    _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    const initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const initializationSettingsIOS = IOSInitializationSettings();
+    const initializationSettings = InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+    await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  }
+  ///////////////////////
+  Future<void> _scheduleNotification() async {
+    const androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      'channel_id',
+      'channel_name',
+      'channel_description',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+    const iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    const platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
+    final scheduledDate = widget.student.exitDate.subtract(Duration(days: _daysBeforeExit));
+    await _flutterLocalNotificationsPlugin.schedule(
+      widget.student.id.hashCode,
+      'موعد خروج ${widget.student.name}',
+      'يتبقى $_daysBeforeExit يوم/أيام فقط حتى موعد خروج ${widget.student.name}',
+      scheduledDate,
+      platformChannelSpecifics,
+    );
+  }
 
   @override
   void initState() {
     super.initState();
+    _initializeFlutterLocalNotificationsPlugin();
     // Initialize the notification settings based on the student's data
     _isNotificationEnabled = widget.student.isNotificationEnabled;
     _daysBeforeExit = widget.student.daysBeforeExit;
@@ -62,7 +96,10 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
             const SizedBox(height: 16.0),
             Center(
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
+                  if (_isNotificationEnabled) {
+                    await _scheduleNotification();
+                  }
                   // Save the data to the box
                   final newStudent = Student(
                     name: widget.student.name,
@@ -80,6 +117,7 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
                   // Navigate back to the previous screen
                   Navigator.pop(context);
                 },
+
                 child: const Text('حفظ الإعدادات'),
               ),
             ),
