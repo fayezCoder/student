@@ -41,6 +41,7 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
     const iOSPlatformChannelSpecifics = IOSNotificationDetails();
     const platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
     final scheduledDate = widget.student.exitDate.subtract(Duration(days: _daysBeforeExit));
+
     await _flutterLocalNotificationsPlugin.schedule(
       widget.student.id.hashCode,
       'موعد خروج ${widget.student.name}',
