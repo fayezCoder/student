@@ -51,125 +51,126 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('نظام إدارة النزلاء - برمجة : فايزالمطيري'),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.search),
+    return Directionality(textDirection: TextDirection.rtl,
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text('نظام إدارة النزلاء - برمجة : فايزالمطيري'),
+            actions: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.search),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SearchStudentPage()),
+                  );
+                },
+              ),
+            ],
+          ),
+          body: ValueListenableBuilder<Box<Student>>(
+              valueListenable: Boxes.getTransactions().listenable(),
+              builder: (context,box,_) {
+                final student0 = box.values.toList().cast<Student>();
+                return ListView.builder(
+                  itemCount: student0.length,
+                  itemBuilder: (context, index) {
+                    final student = student0[index];
+
+                    return Card(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text(
+                              student.name,
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Text(
+                              'السجل المدني-الإقامة / ${student.id}',
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Text(
+                              'الجنسية/ ${student.nationality}',
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Text(
+                              'الجنس/ ${student.gender}',
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Text(
+                              ' الجهة/ ${student.schoolName}     ',
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Text(
+                              ':تاريخ الدخول ${student.admissionDate.toIso8601String()}',
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Text(
+                              'تاريخ الخروج ${student.exitDate.toIso8601String()}',
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 16.0,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.notification_add_outlined),
+                                onPressed: () {
+                                  openNotificationSettings(student,box);
+                                },
+                              ),
+                              const SizedBox(width: 16.0),
+                              ElevatedButton(
+                                onPressed: () {
+                                  deleteStudent(student);
+                                },
+                                child: const Text("حذف النزيل "),
+                              ),
+                            ],
+                          ),
+
+                        ],
+                      ),
+                    );
+                  },
+                );
+              }
+          ),
+          floatingActionButton: FloatingActionButton(
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const SearchStudentPage()),
-              );
-            },
-          ),
-        ],
-      ),
-      body: ValueListenableBuilder<Box<Student>>(
-        valueListenable: Boxes.getTransactions().listenable(),
-        builder: (context,box,_) {
-          final student0 = box.values.toList().cast<Student>();
-          return ListView.builder(
-            itemCount: student0.length,
-            itemBuilder: (context, index) {
-              final student = student0[index];
-
-              return Card(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        student.name,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text(
-                        'السجل المدني-الإقامة / ${student.id}',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text(
-                        'الجنسية/ ${student.nationality}',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text(
-                        'الجنس/ ${student.gender}',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text(
-                        ' الجهة/ ${student.schoolName}     ',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text(
-                        ':تاريخ الدخول ${student.admissionDate.toIso8601String()}',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text(
-                        'تاريخ الخروج ${student.exitDate.toIso8601String()}',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 16.0,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.notification_add_outlined),
-                          onPressed: () {
-                            openNotificationSettings(student,box);
-                          },
-                        ),
-                        const SizedBox(width: 16.0),
-                        ElevatedButton(
-                          onPressed: () {
-                            deleteStudent(student);
-                          },
-                          child: const Text("حذف النزيل "),
-                        ),
-                      ],
-                    ),
-
-                  ],
+                MaterialPageRoute(
+                  builder: (context) => AddStudentPage(
+                    addStudent: addStudent,
+                  ),
                 ),
               );
             },
-          );
-        }
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddStudentPage(
-                addStudent: addStudent,
-              ),
-            ),
-          );
-        },
-        child: const Icon(Icons.add),
-      ),
-    );
+            child: const Icon(Icons.add),
+          ),
+        ));
   }
 }

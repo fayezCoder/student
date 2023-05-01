@@ -19,43 +19,44 @@ class _SearchStudentPageState extends State<SearchStudentPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.yellowAccent,
-      appBar: AppBar(
-        title: TextField(
-          controller: _searchController,
-          decoration: const InputDecoration(
-            hintText: "ابحث عن سجين",
-            border: InputBorder.none,
+    return Directionality(textDirection: TextDirection.rtl,
+        child: Scaffold(
+          backgroundColor: Colors.yellowAccent,
+          appBar: AppBar(
+            title: TextField(
+              controller: _searchController,
+              decoration: const InputDecoration(
+                hintText: "ابحث عن سجين",
+                border: InputBorder.none,
+              ),
+              onChanged: (value) {
+                setState(() {
+                  searchQuery = value;
+                });
+              },
+            ),
           ),
-          onChanged: (value) {
-            setState(() {
-              searchQuery = value;
-            });
-          },
-        ),
-      ),
-      body: ValueListenableBuilder<Box<Student>>(
-        valueListenable: Boxes.getTransactions().listenable(),
-        builder: (context, box, _) {
-          final student0 = box.values.toList().cast<Student>();
-          final filteredStudents = student0
-              .where((student) => student.name.contains(searchQuery))
-              .toList();
-          return ListView.builder(
-            itemCount: filteredStudents.length,
-            itemBuilder: (context, index) {
-              final student = filteredStudents[index];
-              return Card(
-                child: ListTile(
-                  title: Text(student.name),
-                  subtitle: Text(student.id),
-                ),
+          body: ValueListenableBuilder<Box<Student>>(
+            valueListenable: Boxes.getTransactions().listenable(),
+            builder: (context, box, _) {
+              final student0 = box.values.toList().cast<Student>();
+              final filteredStudents = student0
+                  .where((student) => student.name.contains(searchQuery))
+                  .toList();
+              return ListView.builder(
+                itemCount: filteredStudents.length,
+                itemBuilder: (context, index) {
+                  final student = filteredStudents[index];
+                  return Card(
+                    child: ListTile(
+                      title: Text(student.name),
+                      subtitle: Text(student.id),
+                    ),
+                  );
+                },
               );
             },
-          );
-        },
-      ),
-    );
+          ),
+        ));
   }
 }

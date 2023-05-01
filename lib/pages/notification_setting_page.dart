@@ -61,69 +61,70 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('صفحة التنبيهات والإشعارات'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('تفعيل التنبيه'),
-            Switch(
-              value: _isNotificationEnabled,
-              onChanged: (value) {
-                setState(() {
-                  _isNotificationEnabled = value;
-                });
-              },
-            ),
-            const SizedBox(height: 16.0),
-            const Text('اختر مدة التنبيه للخروج بالايام'),
-            Slider(
-              value: _daysBeforeExit.toDouble(),
-              min: 1.0,
-              max: 30.0,
-              divisions: 29,
-              onChanged: (value) {
-                setState(() {
-                  _daysBeforeExit = value.round();
-                });
-              },
-              label: _daysBeforeExit.toString(),
-            ),
-            const SizedBox(height: 16.0),
-            Center(
-              child: ElevatedButton(
-                onPressed: () async {
-                  if (_isNotificationEnabled) {
-                    await _scheduleNotification();
-                  }
-                  // Save the data to the box
-                  final newStudent = Student(
-                    name: widget.student.name,
-                    id: widget.student.id,
-                    gender: widget.student.gender,
-                    nationality: widget.student.nationality,
-                    schoolName: widget.student.schoolName,
-                    admissionDate: widget.student.admissionDate,
-                    exitDate: widget.student.exitDate,
-                    isNotificationEnabled: _isNotificationEnabled,
-                    daysBeforeExit: _daysBeforeExit,
-                  );
-                  widget.box.put(widget.student.key, newStudent);
+    return Directionality(textDirection: TextDirection.rtl,
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text('صفحة التنبيهات والإشعارات'),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('تفعيل التنبيه'),
+                Switch(
+                  value: _isNotificationEnabled,
+                  onChanged: (value) {
+                    setState(() {
+                      _isNotificationEnabled = value;
+                    });
+                  },
+                ),
+                const SizedBox(height: 16.0),
+                const Text('اختر مدة التنبيه للخروج بالايام'),
+                Slider(
+                  value: _daysBeforeExit.toDouble(),
+                  min: 1.0,
+                  max: 30.0,
+                  divisions: 29,
+                  onChanged: (value) {
+                    setState(() {
+                      _daysBeforeExit = value.round();
+                    });
+                  },
+                  label: _daysBeforeExit.toString(),
+                ),
+                const SizedBox(height: 16.0),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (_isNotificationEnabled) {
+                        await _scheduleNotification();
+                      }
+                      // Save the data to the box
+                      final newStudent = Student(
+                        name: widget.student.name,
+                        id: widget.student.id,
+                        gender: widget.student.gender,
+                        nationality: widget.student.nationality,
+                        schoolName: widget.student.schoolName,
+                        admissionDate: widget.student.admissionDate,
+                        exitDate: widget.student.exitDate,
+                        isNotificationEnabled: _isNotificationEnabled,
+                        daysBeforeExit: _daysBeforeExit,
+                      );
+                      widget.box.put(widget.student.key, newStudent);
 
-                  // Navigate back to the previous screen
-                  Navigator.pop(context);
-                },
+                      // Navigate back to the previous screen
+                      Navigator.pop(context);
+                    },
 
-                child: const Text('حفظ الإعدادات'),
-              ),
+                    child: const Text('حفظ الإعدادات'),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }
